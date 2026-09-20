@@ -240,6 +240,70 @@ the verification script existing at all.
 
 ---
 
+## Demo UI
+
+`GET /` on the same API Gateway stage serves a single self-contained `index.html` — no framework, no
+build step, no npm, no CDN. It has a question box, three example questions taken verbatim from
+`evals/golden.json`, a results area, and each cited Experience League page as a clickable link with
+its similarity score.
+
+### Why API Gateway rather than S3 static website hosting
+
+Fewer moving parts, and it is not close:
+
+| | S3 static website | API Gateway route |
+|---|---|---|
+| Resources | second bucket, public bucket policy, website config | one zip Lambda, one GET method |
+| Block-public-access | needs an **exception** on that bucket | not involved |
+| HTTPS | needs CloudFront on top | automatic |
+| CORS | different origin → preflight on every query | **same origin → no CORS at all** |
+
+The S3 route would also mean the project's only publicly readable bucket exists purely to host a demo
+page, which undercuts the block-all-public-access posture the corpus bucket is configured with.
+
+The page is served by a **separate zip Lambda** (`onramp-web`, 256 MB, stdlib only), not the query
+container. Serving static HTML from the 1.87 GB image would mean a 12.5-second cold start to render
+a page.
+
+### The API key tradeoff
+
+The requirement was to keep the key out of the page source. Two ways to do that:
+
+**Option A — an unauthenticated demo route with a low limit.** Better demo ergonomics: open the URL,
+type, go. The problem is that API Gateway **usage plans require API keys**. An unauthenticated route
+can only be limited by *stage-level throttling*, which is a single global bucket shared by all
+callers — it cannot distinguish a presenter from someone running a loop. At 2048 MB per invocation on
+a container Lambda, an open endpoint is a standing invitation to spend money.
+
+**Option B — prompt for the key, hold it in memory. ← chosen.** The page asks once and keeps the key
+in a closure variable for the lifetime of the tab. Not `localStorage`, not `sessionStorage`, not a
+cookie; a reload discards it. The `/ask` route stays key-protected and metered at 5 rps / 10 burst,
+and a rejected key clears itself so the next attempt re-prompts.
+
+The cost is real: a presenter pastes a 40-character key once per session, which is friction in front
+of an audience. That is a worse demo and a better system, and for something with a public URL and a
+per-invocation cost, closed-by-default is the right default. Option A becomes reasonable behind
+CloudFront with WAF rate limiting by IP — at which point it is no longer "fewer moving parts."
+
+### Presentation details
+
+- **Framing is explicit, not apologetic.** Results are headed *"Passages from Adobe's documentation"*
+  with a line stating that nothing was written by a language model. Retrieval-only is the product
+  decision, so the UI says so rather than implying a missing feature.
+- **Latency is shown after every query**, and anything over 5 s is badged `cold start · container
+  init`. Measured p50 is 233 ms warm and 12,535 ms cold, so 5 s separates them with wide margins.
+- **Refusals render as their own thing** — a distinct panel reading *"Outside the indexed
+  documentation"* — never as an error. A refusal is a correct outcome.
+- **No Adobe branding.** The accent colour is a neutral blue, chosen explicitly because it is not
+  Adobe red. The header carries the non-affiliation disclaimer.
+- **Safari-safe:** system font stack, no CSS nesting, no `:has()`, `-webkit-appearance` reset on
+  inputs and buttons, `-webkit-text-size-adjust` to stop iOS inflating type. ES5-compatible script
+  with no optional chaining or top-level await.
+- A strict `Content-Security-Policy` (`default-src 'none'; connect-src 'self'`) ships with the page,
+  which the page satisfies because it loads nothing external.
+
+---
+
 ## Data model
 
 One DynamoDB table, on-demand billing, PITR enabled.

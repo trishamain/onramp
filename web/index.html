@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Onramp — Adobe Real-Time CDP documentation retrieval</title>
+<style>
+/* No CDN, no webfonts, no build step. System font stack renders identically in
+   Safari and Chrome and needs no network fetch -- which matters when this is
+   demoed on conference wifi. */
+:root {
+  --ink:      #14181d;
+  --ink-soft: #4a5561;
+  --line:     #d6dbe1;
+  --bg:       #ffffff;
+  --panel:    #f5f7f9;
+  --accent:   #1f5f8b;   /* deliberately NOT Adobe red -- this is not an Adobe product */
+  --warn-bg:  #fdf6e3;
+  --warn-ink: #7a5b12;
+  --warn-line:#e4d097;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }  /* Safari: stop iOS inflating text */
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Projector-legible: 18px floor, generous line height, high contrast. */
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 32px 24px 64px; }
+
+header { border-bottom: 2px solid var(--line); padding-bottom: 20px; margin-bottom: 28px; }
+h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.01em; }
+.sub { color: var(--ink-soft); font-size: 17px; margin: 0; }
+
+.disclaimer {
+  margin-top: 14px; font-size: 14px; color: var(--ink-soft);
+  border-left: 3px solid var(--line); padding-left: 12px;
+}
+
+/* --- input ------------------------------------------------------------- */
+form { display: flex; gap: 10px; margin-bottom: 14px; }
+
+input[type=text] {
+  flex: 1; padding: 14px 16px; font-size: 19px; font-family: inherit;
+  border: 2px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink);
+  -webkit-appearance: none;   /* Safari: strip the inset shadow */
+  appearance: none;
+}
+input[type=text]:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+
+button {
+  padding: 14px 24px; font-size: 19px; font-family: inherit; font-weight: 600;
+  background: var(--accent); color: #fff; border: 2px solid var(--accent);
+  border-radius: 6px; cursor: pointer; -webkit-appearance: none; appearance: none;
+}
+button:disabled { opacity: 0.5; cursor: default; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.chip {
+  font: inherit; font-size: 15px; text-align: left;
+  background: var(--panel); color: var(--ink-soft);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 8px 15px; cursor: pointer; max-width: 100%;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chips-label { font-size: 14px; color: var(--ink-soft); margin: 0 0 8px; }
+
+/* --- status / latency -------------------------------------------------- */
+.statusbar {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 12px; min-height: 30px; margin-bottom: 8px;
+  font-size: 15px; color: var(--ink-soft);
+}
+.latency { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 4px;
+  font-size: 13px; font-weight: 600; margin-left: 8px;
+  background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--warn-line);
+}
+
+/* --- results ----------------------------------------------------------- */
+.framing {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+  padding: 16px 18px; margin-bottom: 20px;
+}
+.framing h2 { margin: 0 0 6px; font-size: 20px; }
+.framing p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+
+.passage {
+  border: 1px solid var(--line); border-radius: 8px;
+  padding: 18px 20px; margin-bottom: 14px; background: #fff;
+}
+.passage-head {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 10px; margin-bottom: 8px;
+}
+.passage-title { font-size: 19px; font-weight: 600; }
+.area {
+  font-size: 13px; color: var(--ink-soft); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px;
+}
+.score { margin-left: auto; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+.snippet { font-size: 17px; color: var(--ink); margin: 0 0 10px; }
+.src a { color: var(--accent); font-size: 15px; word-break: break-word; }
+
+.refusal {
+  border: 2px solid var(--warn-line); background: var(--warn-bg);
+  color: var(--warn-ink); border-radius: 8px; padding: 20px 22px;
+}
+.refusal h2 { margin: 0 0 8px; font-size: 21px; }
+.refusal p { margin: 0; font-size: 17px; }
+
+.error {
+  border: 2px solid #c0392b; background: #fdf0ee; color: #8c2a1e;
+  border-radius: 8px; padding: 18px 20px; font-size: 17px;
+}
+
+footer { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line);
+         font-size: 14px; color: var(--ink-soft); }
+footer a { color: var(--accent); }
+
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  h1 { font-size: 26px; }
+  form { flex-direction: column; }
+  .score { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Onramp</h1>
+  <p class="sub">Retrieval over Adobe Real-Time CDP documentation — 6,112 passages from 1,042 pages.</p>
+  <p class="disclaimer">
+    An independent personal project. Not affiliated with, endorsed by, or sponsored by Adobe.
+    All passages are quoted verbatim from Adobe's public documentation and link to the source.
+  </p>
+</header>
+
+<form id="ask-form">
+  <input type="text" id="q" autocomplete="off" spellcheck="false"
+         placeholder="Ask a question about Real-Time CDP&hellip;" aria-label="Question">
+  <button type="submit" id="go">Search</button>
+</form>
+
+<p class="chips-label">Example questions, taken verbatim from the evaluation set:</p>
+<div class="chips" id="chips"></div>
+
+<div class="statusbar">
+  <span id="status"></span>
+  <span class="latency" id="latency"></span>
+</div>
+
+<div id="results"></div>
+
+<footer>
+  Retrieval only &mdash; no text is generated. Adobe documentation is MIT licensed
+  (&copy; Adobe). &ldquo;Adobe&rdquo;, &ldquo;Experience Platform&rdquo; and
+  &ldquo;Real-Time CDP&rdquo; are trademarks of Adobe Inc.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Example questions lifted verbatim from evals/golden.json (q01, q06, q13),
+  // chosen to span three product areas. Inlined rather than fetched: the page
+  // must be one self-contained file with no build step.
+  var EXAMPLES = [
+    "Someone browses on their phone on Monday and then buys on a laptop the following week. How do you actually know that's the same person and not two people?",
+    "If someone abandons a cart, how fast can we actually do something about it? Minutes, or are we waiting until the next morning?",
+    "Do we have to rebuild our entire data model to fit your format before we can get any value out of this?"
+  ];
+
+  // Anything slower than this is a container cold start, not steady state.
+  // Measured p50: warm 233 ms, cold 12,535 ms -- so 5 s separates them cleanly
+  // with a wide margin on both sides.
+  var COLD_START_MS = 5000;
+
+  // The API key is NEVER in this file. It is prompted for once and held in a
+  // closure variable for the lifetime of the tab: not localStorage, not
+  // sessionStorage, not a cookie. Reloading the page discards it.
+  var apiKey = null;
+
+  var form    = document.getElementById("ask-form");
+  var input   = document.getElementById("q");
+  var go      = document.getElementById("go");
+  var results = document.getElementById("results");
+  var status  = document.getElementById("status");
+  var latency = document.getElementById("latency");
+
+  // The page is served from the same API Gateway stage as /ask, so the endpoint
+  // is derived from the current path rather than hardcoded. Same origin also
+  // means no CORS preflight on any request.
+  function askUrl() {
+    var base = window.location.pathname.replace(/\/+$/, "");
+    return window.location.origin + base + "/ask";
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  EXAMPLES.forEach(function (text) {
+    var b = el("button", "chip", text.length > 96 ? text.slice(0, 93) + "…" : text);
+    b.type = "button";
+    b.title = text;
+    b.addEventListener("click", function () { input.value = text; submit(); });
+    document.getElementById("chips").appendChild(b);
+  });
+
+  function ensureKey() {
+    if (apiKey) return apiKey;
+    var k = window.prompt(
+      "API key for this demo.\n\n" +
+      "It is held in memory for this tab only — never stored, never in the page source."
+    );
+    if (k) apiKey = k.trim();
+    return apiKey;
+  }
+
+  function showLatency(ms) {
+    latency.textContent = "";
+    latency.appendChild(document.createTextNode(ms + " ms"));
+    if (ms > COLD_START_MS) {
+      var b = el("span", "badge", "cold start · container init");
+      latency.appendChild(b);
+    }
+  }
+
+  function renderRefusal(answer) {
+    var box = el("div", "refusal");
+    box.appendChild(el("h2", null, "Outside the indexed documentation"));
+    box.appendChild(el("p", null, answer));
+    results.appendChild(box);
+  }
+
+  function renderPassages(passages) {
+    var framing = el("div", "framing");
+    framing.appendChild(el("h2", null, "Passages from Adobe's documentation"));
+    framing.appendChild(el("p", null,
+      "These are retrieved verbatim, not generated. Nothing below was written by a " +
+      "language model — every sentence is Adobe's, and every passage links to its source page."));
+    results.appendChild(framing);
+
+    passages.forEach(function (p) {
+      var card = el("div", "passage");
+
+      var head = el("div", "passage-head");
+      head.appendChild(el("span", "passage-title", p.title || "(untitled)"));
+      head.appendChild(el("span", "area", p.product_area));
+      head.appendChild(el("span", "score", "similarity " + p.score));
+      card.appendChild(head);
+
+      card.appendChild(el("p", "snippet", p.snippet));
+
+      var src = el("div", "src");
+      var a = el("a", null, p.doc_url);
+      a.href = p.doc_url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      src.appendChild(a);
+      card.appendChild(src);
+
+      results.appendChild(card);
+    });
+  }
+
+  function renderError(msg) {
+    var box = el("div", "error");
+    box.textContent = msg;
+    results.appendChild(box);
+  }
+
+  function submit() {
+    var question = input.value.trim();
+    if (!question) return;
+    if (!ensureKey()) return;
+
+    results.textContent = "";
+    latency.textContent = "";
+    status.textContent = "Searching… (first query after idle may take ~13 s)";
+    go.disabled = true;
+
+    var started = Date.now();
+
+    fetch(askUrl(), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": apiKey },
+      body: JSON.stringify({ question: question })
+    }).then(function (res) {
+      return res.text().then(function (body) { return { ok: res.ok, code: res.status, body: body }; });
+    }).then(function (r) {
+      showLatency(Date.now() - started);
+      status.textContent = "";
+      go.disabled = false;
+
+      if (r.code === 403) {
+        apiKey = null;   // wrong key: drop it so the next attempt re-prompts
+        renderError("The API key was rejected. Press Search again to re-enter it.");
+        return;
+      }
+      if (!r.ok) {
+        renderError("Request failed (HTTP " + r.code + "). " + r.body.slice(0, 200));
+        return;
+      }
+
+      var data;
+      try { data = JSON.parse(r.body); }
+      catch (e) { renderError("Could not parse the response."); return; }
+
+      // A refusal is answer_or_null being set with no passages. It is a correct,
+      // deliberate outcome -- rendered as its own thing, never as an error.
+      if (data.answer_or_null && (!data.passages || data.passages.length === 0)) {
+        renderRefusal(data.answer_or_null);
+        return;
+      }
+      if (!data.passages || data.passages.length === 0) {
+        renderRefusal("Nothing in the indexed documentation matched that closely enough to cite.");
+        return;
+      }
+      renderPassages(data.passages);
+    }).catch(function (err) {
+      status.textContent = "";
+      go.disabled = false;
+      renderError("Network error: " + err.message);
+    });
+  }
+
+  form.addEventListener("submit", function (e) { e.preventDefault(); submit(); });
+})();
+</script>
+</body>
+</html>

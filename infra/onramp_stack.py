@@ -324,6 +324,44 @@ class OnrampStack(Stack):
             throttle=apigw.ThrottleSettings(rate_limit=5, burst_limit=10),
         ).add_api_key(api_key)
 
+
+        # --- Demo page --------------------------------------------------------
+        # A zip Lambda, not the query container: serving static HTML from a
+        # 1.87 GB image would mean a 12.5 s cold start to render a page. This
+        # one imports only the standard library and starts in well under a
+        # second. See web/web_handler.py for why this is an API Gateway route
+        # rather than S3 static website hosting.
+        web_logs = logs.LogGroup(
+            self,
+            "WebLogGroup",
+            log_group_name="/aws/lambda/onramp-web",
+            retention=logs.RetentionDays.ONE_WEEK,
+            removal_policy=RemovalPolicy.DESTROY,
+        )
+        self.web_fn = lambda_.Function(
+            self,
+            "WebFunction",
+            function_name="onramp-web",
+            runtime=lambda_.Runtime.PYTHON_3_12,
+            architecture=lambda_.Architecture.ARM_64,
+            handler="web_handler.handler",
+            code=lambda_.Code.from_asset("web"),
+            memory_size=256,
+            timeout=Duration.seconds(10),
+            tracing=lambda_.Tracing.ACTIVE,
+            log_group=web_logs,
+        )
+
+        # GET / serves the page. No API key here -- a key on the HTML would have
+        # to be embedded in the page to be usable, which is exactly what we are
+        # avoiding. The page prompts for the key and holds it in memory; the
+        # data route (/ask) stays key-protected and metered.
+        self.api.root.add_method(
+            "GET",
+            apigw.LambdaIntegration(self.web_fn, proxy=True),
+            api_key_required=False,
+        )
+
         # --- ECR lifecycle ----------------------------------------------------
         # Every `cdk deploy` pushes a new ~1.9 GB image. Without a lifecycle
         # rule those accumulate at $0.10/GB-month forever. Keep the last 3 so a
@@ -394,6 +432,7 @@ class OnrampStack(Stack):
         CfnOutput(self, "QueryFunctionName", value=self.query_fn.function_name)
         CfnOutput(self, "QueryLogGroupName", value=query_logs.log_group_name)
         CfnOutput(self, "ApiEndpoint", value=f"{self.api.url}ask")
+        CfnOutput(self, "DemoUiUrl", value=self.api.url, description="Open in a browser")
         CfnOutput(
             self,
             "GetApiKeyCommand",

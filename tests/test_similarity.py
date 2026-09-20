@@ -4,7 +4,9 @@ import numpy as np
 import pytest
 
 from onramp.providers.null import NullEmbeddingProvider
+from onramp.query import VectorIndex, _dedupe_by_document
 from onramp.similarity import cosine_similarity, pack_vector, top_k, unpack_vector
+from onramp.storage import LoadedChunk
 
 
 def test_identical_vectors_score_one():
@@ -103,3 +105,29 @@ def test_retrieval_ranks_the_right_chunk_end_to_end():
     (query,) = provider.embed(["snowflake source connector"])
     ranked = top_k(cosine_similarity(np.array(query, dtype=np.float32), vectors), 1)
     assert ranked == [1]
+
+
+def test_dedupe_by_document_keeps_best_per_url():
+    """One document must not occupy every result slot."""
+
+    def chunk(url):
+        return LoadedChunk(
+            text="", title="", product_area="", heading_path="", doc_url=url, s3_key="", embedding=b""
+        )
+
+    idx = VectorIndex(
+        chunks=[chunk("a"), chunk("a"), chunk("a"), chunk("b"), chunk("c")],
+        matrix=None,
+        provider_name="x",
+        dimensions=384,
+    )
+    # Candidates in descending score order: a, a, a, b, c
+    assert _dedupe_by_document(idx, [0, 1, 2, 3, 4], 3) == [0, 3, 4]
+
+
+def test_dedupe_returns_fewer_when_documents_run_out():
+    c = LoadedChunk(
+        text="", title="", product_area="", heading_path="", doc_url="only", s3_key="", embedding=b""
+    )
+    idx = VectorIndex(chunks=[c, c, c], matrix=None, provider_name="x", dimensions=384)
+    assert _dedupe_by_document(idx, [0, 1, 2], 3) == [0]

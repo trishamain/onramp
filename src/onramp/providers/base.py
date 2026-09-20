@@ -29,7 +29,16 @@ class EmbeddingProvider(Protocol):
     model_id: str
 
     def embed(self, texts: list[str]) -> list[list[float]]:
-        """Embed a batch. Order of the return value matches order of `texts`."""
+        """Embed passages. Order of the return value matches order of `texts`."""
+        ...
+
+    def embed_query(self, text: str) -> list[float]:
+        """Embed a question.
+
+        Separate from embed() because retrieval models are often asymmetric:
+        bge and e5 require an instruction prefix on the query and must not have
+        it on the passages. Providers with no such distinction just delegate.
+        """
         ...
 
 

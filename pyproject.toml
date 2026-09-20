@@ -18,7 +18,18 @@ src = ["src", "tests", "scripts"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "PL"]
-ignore = ["PLR2004"]  # magic numbers are fine in tests and dimension constants
+ignore = [
+  "PLR2004",  # magic numbers are fine in tests and dimension constants
+  # Argument/branch/statement count limits are arbitrary thresholds, and the
+  # functions they flag here (answer_question, ingest_document, the CLI mains)
+  # have deliberate shapes. Splitting them to satisfy a counter would make the
+  # code worse, not better.
+  "PLR0913", "PLR0917", "PLR0911", "PLR0912", "PLR0915",
+  # Module-scope globals are THE mechanism for Lambda warm-start caching: the
+  # model and the vector index must outlive a single invocation. Flagging that
+  # as a smell misreads the runtime.
+  "PLW0603",
+]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["PLR0913"]

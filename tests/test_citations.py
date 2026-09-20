@@ -161,3 +161,34 @@ def test_every_golden_url_reproduced():
             failures.append(f"{q['id']}: got {got} want {q['expected_url']}")
 
     assert not failures, "URL mapping regressions:\n" + "\n".join(failures)
+
+
+def test_absolute_help_links_are_normalised():
+    """Regression: rtcdp's TOC links from the repo root, not relatively.
+
+    `/help/rtcdp/use-case-guides/overview.md` never matched the guide-relative
+    lookup key, so it fell through to the naive rule and produced
+    /rtcdp/use-case-guides/overview -- a live 404. The correct URL is
+    /rtcdp/use-cases/overview, from the `Use cases {#use-cases}` section.
+    """
+    toc_text = """# Real-Time CDP {#rtcdp}
+
+* Use cases {#use-cases}
+  * [Overview of sample use cases](/help/rtcdp/use-case-guides/overview.md)
+"""
+    toc = parse_toc(toc_text, "rtcdp")
+    assert build_url("help/rtcdp/use-case-guides/overview.md", toc) == (
+        EXPERIENCE_LEAGUE_BASE + "rtcdp/use-cases/overview"
+    )
+
+
+def test_missing_toc_silently_degrades_to_naive():
+    """Documents the failure mode that cost 287 destinations docs their URLs.
+
+    destinations/TOC.md was absent from S3, so every destinations document used
+    the naive rule. Nothing errored -- the URLs just quietly 404'd. This asserts
+    the degradation is real so the behaviour is understood rather than assumed.
+    """
+    assert build_url("help/destinations/ui/when-to-activate.md", None) == (
+        EXPERIENCE_LEAGUE_BASE + "destinations/ui/when-to-activate"
+    )

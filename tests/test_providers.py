@@ -14,6 +14,7 @@ from onramp.providers.factory import (
     available_providers,
     get_embedding_provider,
 )
+from onramp.providers.local import DEFAULT_MODEL, MODELS, LocalEmbeddingProvider
 from onramp.providers.null import NullEmbeddingProvider
 
 # --- Null provider ----------------------------------------------------------
@@ -154,3 +155,46 @@ def test_bedrock_calls_once_per_text():
 
 def test_bedrock_declares_1024_dimensions():
     assert BedrockEmbeddingProvider(client=MagicMock()).dimensions == 1024
+
+
+# --- asymmetric query embedding ---------------------------------------------
+
+
+def test_local_registry_declares_window_and_prefix():
+    """Chunk size must match the model window; the ablation showed mismatch is silent."""
+    assert DEFAULT_MODEL == "BAAI/bge-small-en-v1.5"
+    dims, window, prefix = MODELS[DEFAULT_MODEL]
+    assert dims == 384
+    assert window == 512
+    assert prefix.startswith("Represent this sentence")
+
+    # all-MiniLM's 256 window is why 500-token chunks silently lost half their text.
+    assert MODELS["sentence-transformers/all-MiniLM-L6-v2"][1] == 256
+
+
+def test_local_rejects_unknown_model():
+    with pytest.raises(ValueError, match="unknown model"):
+        LocalEmbeddingProvider(model_name="not-a-real-model")
+
+
+def test_local_query_prefix_applied_without_loading_torch(monkeypatch):
+    """embed_query must prefix; embed must not. Verified without a real model."""
+    p = LocalEmbeddingProvider(model_name="BAAI/bge-small-en-v1.5")
+    seen: list[list[str]] = []
+    monkeypatch.setattr(p, "embed", lambda texts: seen.append(texts) or [[0.0] * 384])
+
+    p.embed_query("how does identity stitching work")
+    assert seen[0][0].startswith("Represent this sentence for searching relevant passages: ")
+    assert seen[0][0].endswith("how does identity stitching work")
+
+
+def test_symmetric_providers_do_not_prefix():
+    p = NullEmbeddingProvider()
+    assert p.embed_query("abc") == p.embed(["abc"])[0]
+
+
+def test_bedrock_embed_query_is_symmetric():
+    client = _mock_bedrock([0.0] * 1024)
+    BedrockEmbeddingProvider(client=client).embed_query("identity stitching")
+    payload = json.loads(client.invoke_model.call_args.kwargs["body"])
+    assert payload["inputText"] == "identity stitching"

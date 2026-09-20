@@ -26,6 +26,10 @@ class NullEmbeddingProvider:
     def embed(self, texts: list[str]) -> list[list[float]]:
         return [self._one(t) for t in texts]
 
+    def embed_query(self, text: str) -> list[float]:
+        """Symmetric: hash vectors have no query/passage distinction."""
+        return self._one(text)
+
     def _one(self, text: str) -> list[float]:
         # SHA-256 gives 32 bytes per digest; we chain digests until we have one
         # byte per dimension. Chaining on a counter rather than re-hashing the

@@ -56,9 +56,26 @@ _SECTION_LINE = re.compile(
 _LEAF_LINE = re.compile(rf"^(?P<indent>\s*){_BULLET}\s+\[[^\]]*\]\((?P<target>[^)]+\.md)\)")
 
 
-def _normalise_target(target: str) -> str:
-    """TOC links use ./x.md, x.md and ../x.md interchangeably."""
+def _normalise_target(target: str, guide_dir: str = "") -> str:
+    """Normalise a TOC link target to a guide-relative path.
+
+    This corpus mixes three link styles, sometimes within one file:
+
+        ./features/namespaces.md          relative with dot
+        features/namespaces.md            bare relative
+        /help/rtcdp/use-case-guides/x.md  ABSOLUTE from the repo root
+
+    The absolute form is the one that bit us: rtcdp's TOC uses it, so those
+    entries never matched the guide-relative lookup key, silently fell through
+    to the naive rule, and produced /rtcdp/use-case-guides/overview -- a 404 --
+    instead of /rtcdp/use-cases/overview.
+    """
     target = target.split("#", 1)[0].strip()
+    if target.startswith("/help/"):
+        target = target[len("/help/") :]
+        prefix = f"{guide_dir}/"
+        if guide_dir and target.startswith(prefix):
+            target = target[len(prefix) :]
     while target.startswith("./"):
         target = target[2:]
     return target
@@ -75,7 +92,7 @@ class TocIndex:
 
     def url_path_for(self, rel_path: str) -> str | None:
         """Return the published path (without base URL) or None if not in TOC."""
-        rel_path = _normalise_target(rel_path)
+        rel_path = _normalise_target(rel_path, self.guide_dir)
         if rel_path not in self.section_path:
             return None
         stem = rel_path[: -len(".md")].split("/")[-1]
@@ -110,7 +127,7 @@ def parse_toc(toc_text: str, guide_dir: str) -> TocIndex:
             indent = len(leaf.group("indent"))
             # Only sections strictly shallower than this leaf are its ancestors.
             active = [anchor for ind, anchor in stack if ind < indent]
-            target = _normalise_target(leaf.group("target"))
+            target = _normalise_target(leaf.group("target"), guide_dir)
             index.section_path[target] = "/".join(active)
             continue
 

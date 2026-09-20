@@ -59,3 +59,7 @@ class BedrockEmbeddingProvider:
             payload = json.loads(response["body"].read())
             out.append(payload["embedding"])
         return out
+
+    def embed_query(self, text: str) -> list[float]:
+        """Titan is symmetric -- no instruction prefix in its contract."""
+        return self.embed([text])[0]

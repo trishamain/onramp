@@ -50,6 +50,10 @@ class ParsedDoc:
     title: str
     description: str
     body: str
+    # True when the source marks this document as unpublished. Adobe uses
+    # `hide: true` / `hidefromtoc: yes` for pages that exist in the repo but are
+    # not served on Experience League -- citing one produces a guaranteed 404.
+    hidden: bool = False
 
 
 def parse_frontmatter(raw: str) -> ParsedDoc:
@@ -61,6 +65,7 @@ def parse_frontmatter(raw: str) -> ParsedDoc:
     """
     title = ""
     description = ""
+    hidden = False
     body = raw
 
     m = _FRONTMATTER.match(raw)
@@ -76,6 +81,8 @@ def parse_frontmatter(raw: str) -> ParsedDoc:
                 title = value
             elif key == "description" and not description:
                 description = value
+            elif key in ("hide", "hidefromtoc") and value.lower() in ("true", "yes"):
+                hidden = True
 
     # Fall back to the first H1 when frontmatter carries no title, which is
     # common in this corpus.
@@ -86,7 +93,7 @@ def parse_frontmatter(raw: str) -> ParsedDoc:
                 title = hm.group("text").strip()
                 break
 
-    return ParsedDoc(title=title, description=description, body=body)
+    return ParsedDoc(title=title, description=description, body=body, hidden=hidden)
 
 
 @dataclass

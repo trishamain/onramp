@@ -1,0 +1,38 @@
+[
+  {
+    "condition": "1. container cold start",
+    "n": 3,
+    "p50_ms": 12535,
+    "p95_ms": 12797,
+    "min_ms": 12491,
+    "max_ms": 12797,
+    "mean_ms": 12607
+  },
+  {
+    "condition": "2. warm + vector cache",
+    "n": 20,
+    "p50_ms": 233,
+    "p95_ms": 294,
+    "min_ms": 200,
+    "max_ms": 294,
+    "mean_ms": 243
+  },
+  {
+    "condition": "3. warm, cache disabled",
+    "n": 20,
+    "p50_ms": 1438,
+    "p95_ms": 1729,
+    "min_ms": 1410,
+    "max_ms": 1729,
+    "mean_ms": 1494
+  },
+  {
+    "condition": "4. local script path",
+    "n": 20,
+    "p50_ms": 7,
+    "p95_ms": 13,
+    "min_ms": 6,
+    "max_ms": 13,
+    "mean_ms": 8
+  }
+]

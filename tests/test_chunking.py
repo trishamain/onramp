@@ -117,3 +117,15 @@ def test_empty_document_yields_no_chunks():
 def test_approx_tokens_is_monotonic():
     assert approx_tokens("a") >= 1
     assert approx_tokens("a" * 400) > approx_tokens("a" * 40)
+
+
+def test_hidden_frontmatter_is_detected():
+    """Adobe marks unpublished pages with hide/hidefromtoc; citing them 404s."""
+    for flag in ("hide: true", "hidefromtoc: yes", "hide: yes", "hidefromtoc: true"):
+        doc = parse_frontmatter(f"---\ntitle: X\n{flag}\n---\n\n# X\n\nBody.\n")
+        assert doc.hidden, flag
+
+
+def test_visible_documents_are_not_flagged():
+    doc = parse_frontmatter("---\ntitle: X\ndescription: Y\n---\n\n# X\n\nBody.\n")
+    assert not doc.hidden

@@ -1,0 +1,58 @@
+# QueryLambda: embed question -> cosine over cached vectors -> passages.
+#
+# A container image rather than a zip because the local embedding model plus
+# torch is far past the 250 MB unzipped limit for a zip-packaged Lambda. The
+# cost of that choice is cold start, which the README measures rather than
+# hides.
+FROM public.ecr.aws/lambda/python:3.12-arm64
+
+# Where the model is baked. Both variables are set so sentence-transformers and
+# huggingface_hub agree on one location, and so the runtime never guesses.
+#
+# NOTE the offline flags are deliberately NOT set here -- they are set after the
+# model download, at the bottom of this file. Setting them before the bake step
+# makes the download itself fail with "couldn't connect to huggingface.co",
+# which is exactly what happened on the first build.
+ENV HF_HOME=/opt/models \
+    SENTENCE_TRANSFORMERS_HOME=/opt/models \
+    # Lambda's filesystem is read-only apart from /tmp; point anything that
+    # wants a scratch cache there.
+    TORCH_HOME=/tmp/torch \
+    PYTHONUNBUFFERED=1
+
+# CPU-only torch. The default index serves CUDA builds that are several GB and
+# cannot use a GPU that Lambda does not have. Installing this first, in its own
+# layer, keeps it cached across rebuilds of the application code.
+RUN pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cpu \
+        torch==2.14.0
+
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Bake the model into the image at build time. This is the whole reason the
+# image can be offline at runtime: the weights are already on disk, so a cold
+# start is model load from local storage rather than a download.
+ARG EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+# Cleanup is done in Python, not find(1): the Lambda base image is minimal and
+# ships no coreutils, so `find` exits 127. Dropping the ONNX and TensorFlow
+# copies of the weights matters -- sentence-transformers caches every format the
+# repo publishes, and we only load the PyTorch one.
+RUN python -c "\
+from sentence_transformers import SentenceTransformer; \
+from pathlib import Path; \
+SentenceTransformer('${EMBEDDING_MODEL}', cache_folder='/opt/models'); \
+[p.unlink() for p in Path('/opt/models').rglob('*') \
+ if p.is_file() and p.suffix in {'.onnx', '.h5', '.msgpack', '.ot'}]"
+
+# Runtime-only: refuse to reach the network once deployed. Without these, a cold
+# start makes a Hub revision check that adds latency -- or hangs when rate
+# limited, which is what happened during development on the laptop.
+ENV TRANSFORMERS_OFFLINE=1 \
+    HF_HUB_OFFLINE=1 \
+    EMBEDDING_MODEL=${EMBEDDING_MODEL}
+
+COPY src/onramp ${LAMBDA_TASK_ROOT}/onramp
+COPY handlers/query_handler.py ${LAMBDA_TASK_ROOT}/
+
+CMD ["query_handler.handler"]

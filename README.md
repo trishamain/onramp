@@ -6,9 +6,119 @@ A serverless retrieval assistant over Adobe Real-Time CDP documentation, built a
 
 ## Architecture
 
+Deployed resources, not an idealised drawing. Purple nodes are the only publicly reachable
+surface: API Gateway and the page it serves. Everything else is reachable solely through IAM
+roles scoped to specific ARNs.
+
 ```mermaid
-%% Fill me in
+flowchart LR
+
+  ECR["ECR asset repo<br/>1.87 GB arm64 images<br/>lifecycle: keep last 3"]
+
+  subgraph ING["Ingestion path — async, write"]
+    direction LR
+    S3["S3 CorpusBucket<br/>versioned · SSE-S3 · block-all-public<br/>1,042 markdown docs"]
+    SQS["SQS IngestQueue<br/>visibility 1800s = 6x fn timeout<br/>retention 4d"]
+    DLQ["SQS IngestDLQ<br/>retention 14d · 0 messages"]
+    INGEST["Lambda onramp-ingest<br/>container image · arm64 · 2048 MB · 300s<br/>frontmatter, chunk, embed, write"]
+  end
+
+  subgraph EMB["Embedding — provider abstraction"]
+    direction TB
+    PROV["EmbeddingProvider Protocol<br/>chosen by EMBEDDING_PROVIDER env<br/>+ one CDK context value"]
+    LOCAL["LocalEmbeddingProvider ACTIVE<br/>bge-small-en-v1.5 · 384 dims · 512-token window<br/>baked into image, runs offline"]
+    TITAN["BedrockEmbeddingProvider INACTIVE<br/>Titan Text Embeddings V2 · 1024 dims<br/>unit-tested against a mocked client"]
+  end
+
+  subgraph QRY["Query path — sync, read"]
+    direction LR
+    WEB["Lambda onramp-web<br/>zip · arm64 · 256 MB · 10s<br/>serves self-contained index.html"]
+    APIGW["API Gateway REST, stage prod<br/>GET / · POST /ask<br/>API key on /ask · 5 rps, 10 burst"]
+    QUERY["Lambda onramp-query<br/>container image · arm64 · 2048 MB · 30s<br/>in-memory vector cache: 6,112 x 384 float32"]
+  end
+
+  DDB["DynamoDB ChunkTable<br/>on-demand · PITR<br/>6,112 chunks · embedding as packed float32 Binary"]
+  EL["Experience League<br/>public Adobe docs · cited target"]
+
+  S3 -- "s3:ObjectCreated:* <br/> prefix corpus/ suffix .md" --> SQS
+  SQS -- "batch of 5 <br/> partial batch response" --> INGEST
+  SQS -. "after 3 receives" .-> DLQ
+  INGEST -- "384-dim float32 <br/> BatchWriteItem" --> DDB
+
+  INGEST -- "embed passages" --> PROV
+  QUERY -- "embed_query, prefixed" --> PROV
+  PROV --> LOCAL
+  PROV -. "swap target, blocked on quota" .-> TITAN
+
+  APIGW -- "GET / <br/> no key, HTML only" --> WEB
+  APIGW -- "POST /ask <br/> question JSON" --> QUERY
+  QUERY -- "Scan 6,112 items, first call only <br/> 9.4 MB, then cached" --> DDB
+  QUERY -- "top k = 4 passages <br/> title, score, doc_url, snippet" --> APIGW
+  WEB -. "reader follows citation" .-> EL
+
+  ECR -- "container image" --> INGEST
+  ECR -- "container image" --> QUERY
+
+  classDef public  fill:#6a3d7c,stroke:#d3b5e4,stroke-width:3px,color:#f8f2fc
+  classDef compute fill:#2c5875,stroke:#9dc3dc,stroke-width:1.5px,color:#eef5fa
+  classDef storage fill:#4f4634,stroke:#cdbb8c,stroke-width:1.5px,color:#f8f3e7
+  classDef queue   fill:#3b4a66,stroke:#a9b7d2,stroke-width:1.5px,color:#eef1f8
+  classDef ext     fill:#4b4b54,stroke:#b2b2bd,stroke-width:1.5px,color:#f1f1f4
+  classDef off     fill:#3c3c43,stroke:#8d8d98,stroke-width:1.5px,color:#dadae0
+
+  class APIGW,WEB public
+  class INGEST,QUERY,PROV,LOCAL compute
+  class S3,DDB,ECR storage
+  class SQS,DLQ queue
+  class EL ext
+  class TITAN off
 ```
+
+Latency in this system is dominated by one thing, and it is worth seeing in sequence. The
+timings below are measured p50s from `scripts/benchmark.py`, not estimates.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant C as Customer Question
+    participant G as API Gateway
+    participant L as QueryLambda (cold)
+    participant M as Model Load
+    participant D as DynamoDB
+    participant S as Cosine Search
+    participant E as Experience League Citation
+
+    C->>G: POST /ask + x-api-key<br/>~226 ms TLS, routing, usage-plan check
+    G->>L: invoke (no warm environment available)
+
+    rect rgb(90, 74, 46)
+    Note over L,M: COLD START — dominates the request<br/>~11,097 ms of the 12,535 ms total (89%)
+    L->>M: pull + decompress 1.87 GB image, import torch<br/>~9,437 ms
+    M->>M: load bge-small-en-v1.5 from /opt/models<br/>~1,660 ms — measured offline, no network
+    M-->>L: provider ready, 384 dims
+    end
+
+    L->>D: Scan ChunkTable — first invocation only<br/>~1,205 ms
+    D-->>L: 6,112 items, 9.4 MB packed float32<br/>held in module scope for later calls
+
+    L->>S: embed_query + cosine over 6,112 x 384<br/>~7 ms
+    S-->>L: top k = 4, deduped to one chunk per document
+
+    L-->>G: JSON: passages, scores, doc_url, latency_ms
+    G-->>C: 200 — total 12,535 ms p50 cold
+
+    Note over C,E: Every subsequent call skips steps 3-7 entirely
+    C->>G: second question
+    G-->>C: 200 — total 233 ms p50 warm (54x faster)
+
+    C->>E: reader opens doc_url<br/>100% of sampled citations resolve 2xx
+```
+
+**The cold path costs 54x the warm path.** Of the 12,535 ms first request, ~11,097 ms (89%) is
+container initialisation — pulling and decompressing a 1.87 GB image and importing torch — and only
+~1,660 ms of that is the model itself. The DynamoDB scan adds ~1,205 ms once; after that the vectors
+live in module scope and every subsequent request costs 233 ms. The actual retrieval work, embedding
+the question and scoring 6,112 vectors, is **7 ms**.
 
 ---
 

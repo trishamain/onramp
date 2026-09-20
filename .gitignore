@@ -1,0 +1,25 @@
+.venv/
+cdk.out/
+__pycache__/
+*.py[cod]
+.env
+*.csv
+.DS_Store
+
+# The draft eval set is superseded by evals/golden.json, which is the
+# validated artifact. Keeping both invites editing the wrong one.
+golden-draft.json
+
+# Model caches -- multi-hundred-MB, reproducible from the Dockerfile.
+models/
+.cache/
+hf_cache/
+sentence_transformers_cache/
+
+# Cloned Adobe content is MIT licensed but not ours to vendor.
+adobedocs/
+/tmp/adobedocs/
+corpus/
+
+.pytest_cache/
+.ruff_cache/

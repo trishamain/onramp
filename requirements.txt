@@ -1,0 +1,6 @@
+# Runtime dependencies for the Lambda images and the local scripts.
+boto3>=1.34
+numpy>=1.26
+# Only needed by LocalEmbeddingProvider. CI and the unit suite use the Null
+# provider and never import this, which is why it is a lazy import.
+sentence-transformers>=3.0

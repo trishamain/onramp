@@ -499,6 +499,9 @@ full-scan retrieval, not the per-query cost.
 
 **I hit a Bedrock quota provisioning defect and chose portability over waiting.**
 
+> The full diagnosis, with quota state captured from the account, is in
+> [`docs/bedrock-support-case.md`](docs/bedrock-support-case.md).
+
 Every on-demand Bedrock inference quota on this account reads `0.0` and is marked non-adjustable —
 82 of 84 models, including every Claude and Titan model. `InvokeModel` returns `ThrottlingException`
 despite `authorizationStatus: AUTHORIZED` and `entitlementAvailability: AVAILABLE`. Service Quotas

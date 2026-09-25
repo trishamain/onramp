@@ -1,0 +1,250 @@
+2026-09-24 23:09:32,620 - MainThread - awscli.clidriver - DEBUG - CLI version: aws-cli/2.36.49 Python/3.14.7 Darwin/25.5.0 source/arm64
+2026-09-24 23:09:32,620 - MainThread - awscli.clidriver - DEBUG - Arguments entered to CLI: ['bedrock-runtime', 'invoke-model', '--model-id', 'amazon.titan-embed-text-v2:0', '--content-type', 'application/json', '--accept', 'application/json', '--cli-binary-format', 'raw-in-base64-out', '--body', '{"inputText":"quota probe"}', '--region', 'us-east-1', '--debug', '/tmp/out.json']
+2026-09-24 23:09:32,629 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.waiters.register_add_waiters for event building-command-table.main
+2026-09-24 23:09:32,629 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.alias.register_alias_commands for event building-command-table.main
+2026-09-24 23:09:32,629 - MainThread - botocore.hooks - DEBUG - Event building-command-table.main: calling handler <function add_waiters at 0x10970a140>
+2026-09-24 23:09:32,629 - MainThread - botocore.hooks - DEBUG - Event building-command-table.main: calling handler <bound method AliasSubCommandInjector.on_building_command_table of <awscli.alias.AliasSubCommandInjector object at 0x109724ad0>>
+2026-09-24 23:09:32,629 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/data/cli.json
+2026-09-24 23:09:32,629 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.globalargs.register_parse_global_args for event top-level-args-parsed
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.cloudfront.register for event top-level-args-parsed
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <function resolve_types at 0x1097910c0>
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <function no_sign_request at 0x109791430>
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <function resolve_verify_ssl at 0x109791380>
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <function resolve_cli_read_timeout at 0x109791590>
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <function resolve_cli_connect_timeout at 0x1097914e0>
+2026-09-24 23:09:32,630 - MainThread - botocore.hooks - DEBUG - Event top-level-args-parsed: calling handler <built-in method update of dict object at 0x1097a7840>
+2026-09-24 23:09:32,630 - MainThread - botocore.session - DEBUG - Setting config variable for region to 'us-east-1'
+2026-09-24 23:09:32,630 - MainThread - awscli.clidriver - DEBUG - CLI version: aws-cli/2.36.49 Python/3.14.7 Darwin/25.5.0 source/arm64
+2026-09-24 23:09:32,630 - MainThread - awscli.clidriver - DEBUG - Arguments entered to CLI: ['bedrock-runtime', 'invoke-model', '--model-id', 'amazon.titan-embed-text-v2:0', '--content-type', 'application/json', '--accept', 'application/json', '--cli-binary-format', 'raw-in-base64-out', '--body', '{"inputText":"quota probe"}', '--region', 'us-east-1', '--debug', '/tmp/out.json']
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.paramfile.register_init_uri_param_handler for event session-initialized
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.binaryformat.register_init_binary_formatter for event session-initialized
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.clidriver.register_no_pager_handler for event session-initialized
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.assumerole.register_assume_role_provider for event session-initialized
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.timestampformat.register_timestamp_format for event session-initialized
+2026-09-24 23:09:32,630 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.history.register_history_mode for event session-initialized
+2026-09-24 23:09:32,632 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.sso.register_sso_commands for event session-initialized
+2026-09-24 23:09:32,634 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function add_timestamp_parser at 0x1097b4670>
+2026-09-24 23:09:32,634 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function register_uri_param_handler at 0x1091bd4e0>
+2026-09-24 23:09:32,634 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function add_binary_formatter at 0x1097938a0>
+2026-09-24 23:09:32,634 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function no_pager_handler at 0x1096f5f30>
+2026-09-24 23:09:32,634 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function inject_assume_role_provider_cache at 0x1097b43b0>
+2026-09-24 23:09:32,635 - MainThread - botocore.utils - DEBUG - IMDS ENDPOINT: http://169.254.169.254/
+2026-09-24 23:09:32,637 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function attach_history_handler at 0x1097b6fb0>
+2026-09-24 23:09:32,637 - MainThread - botocore.hooks - DEBUG - Event session-initialized: calling handler <function inject_json_file_cache at 0x109872a30>
+2026-09-24 23:09:32,646 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/bedrock-runtime/2023-09-30/service-2.json
+2026-09-24 23:09:32,648 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.removals.register_removals for event building-command-table.bedrock-runtime
+2026-09-24 23:09:32,648 - MainThread - botocore.hooks - DEBUG - Event building-command-table.bedrock-runtime: calling handler functools.partial(<function _remove_commands at 0x1098e4f60>, commands_to_remove=['invoke-model-with-bidirectional-stream', 'invoke-model-with-response-stream', 'converse-stream'])
+2026-09-24 23:09:32,648 - MainThread - awscli.customizations.removals - DEBUG - Removing operation: invoke-model-with-bidirectional-stream
+2026-09-24 23:09:32,648 - MainThread - awscli.customizations.removals - DEBUG - Removing operation: invoke-model-with-response-stream
+2026-09-24 23:09:32,648 - MainThread - awscli.customizations.removals - DEBUG - Removing operation: converse-stream
+2026-09-24 23:09:32,648 - MainThread - botocore.hooks - DEBUG - Event building-command-table.bedrock-runtime: calling handler <function add_waiters at 0x10970a140>
+2026-09-24 23:09:32,654 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/bedrock-runtime/2023-09-30/waiters-2.json
+2026-09-24 23:09:32,654 - MainThread - botocore.hooks - DEBUG - Event building-command-table.bedrock-runtime: calling handler <bound method AliasSubCommandInjector.on_building_command_table of <awscli.alias.AliasSubCommandInjector object at 0x109724ad0>>
+2026-09-24 23:09:32,654 - MainThread - awscli.clidriver - DEBUG - OrderedDict({'body': <awscli.arguments.CLIArgument object at 0x109881010>, 'content-type': <awscli.arguments.CLIArgument object at 0x10987ec10>, 'accept': <awscli.arguments.CLIArgument object at 0x10987ed50>, 'model-id': <awscli.arguments.CLIArgument object at 0x109812190>, 'trace': <awscli.arguments.CLIArgument object at 0x1098122c0>, 'guardrail-identifier': <awscli.arguments.CLIArgument object at 0x109851130>, 'guardrail-version': <awscli.arguments.CLIArgument object at 0x1097e7680>, 'performance-config-latency': <awscli.arguments.CLIArgument object at 0x1097e78a0>, 'service-tier': <awscli.arguments.CLIArgument object at 0x1098c5450>, 'request-metadata': <awscli.arguments.CLIArgument object at 0x1098c5550>})
+2026-09-24 23:09:32,654 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.streamingoutputarg.register_streaming_output_arg for event building-argument-table.bedrock-runtime.invoke-model
+2026-09-24 23:09:32,655 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.cliinput.register_cli_input_args for event building-argument-table.bedrock-runtime.invoke-model
+2026-09-24 23:09:32,655 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.paginate.register_pagination for event building-argument-table.bedrock-runtime.invoke-model
+2026-09-24 23:09:32,655 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.customizations.generatecliskeleton.register_generate_cli_skeleton for event building-argument-table.bedrock-runtime.invoke-model
+2026-09-24 23:09:32,655 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.bedrock-runtime.invoke-model: calling handler <function add_streaming_output_arg at 0x1098e5590>
+2026-09-24 23:09:32,655 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.bedrock-runtime.invoke-model: calling handler <function add_cli_input_json at 0x1098e5fe0>
+2026-09-24 23:09:32,655 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.bedrock-runtime.invoke-model: calling handler <function add_cli_input_yaml at 0x1098e6f00>
+2026-09-24 23:09:32,655 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.bedrock-runtime.invoke-model: calling handler <function unify_paging_params at 0x1098e77f0>
+2026-09-24 23:09:32,661 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/bedrock-runtime/2023-09-30/paginators-1.json
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event building-argument-table.bedrock-runtime.invoke-model: calling handler <function add_generate_skeleton at 0x1099887d0>
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event building-command-table.bedrock-runtime_invoke-model: calling handler <function add_waiters at 0x10970a140>
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event building-command-table.bedrock-runtime_invoke-model: calling handler <bound method AliasSubCommandInjector.on_building_command_table of <awscli.alias.AliasSubCommandInjector object at 0x109724ad0>>
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.body: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,661 - MainThread - awscli.lazy_emitter - DEBUG - Lazy-initializing plugin awscli.argprocess.register_param_shorthand_parser for event process-cli-arg.bedrock-runtime.invoke-model
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event process-cli-arg.bedrock-runtime.invoke-model: calling handler <awscli.argprocess.ParamShorthandParser object at 0x109881e80>
+2026-09-24 23:09:32,661 - MainThread - awscli.argprocess - DEBUG - Param body looks like JSON, not considered for param shorthand.
+2026-09-24 23:09:32,661 - MainThread - awscli.arguments - DEBUG - Unpacked value of '{"inputText":"quota probe"}' for parameter "body": '{"inputText":"quota probe"}'
+2026-09-24 23:09:32,661 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.content-type: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event process-cli-arg.bedrock-runtime.invoke-model: calling handler <awscli.argprocess.ParamShorthandParser object at 0x109881e80>
+2026-09-24 23:09:32,662 - MainThread - awscli.arguments - DEBUG - Unpacked value of 'application/json' for parameter "content_type": 'application/json'
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.accept: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event process-cli-arg.bedrock-runtime.invoke-model: calling handler <awscli.argprocess.ParamShorthandParser object at 0x109881e80>
+2026-09-24 23:09:32,662 - MainThread - awscli.arguments - DEBUG - Unpacked value of 'application/json' for parameter "accept": 'application/json'
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.model-id: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event process-cli-arg.bedrock-runtime.invoke-model: calling handler <awscli.argprocess.ParamShorthandParser object at 0x109881e80>
+2026-09-24 23:09:32,662 - MainThread - awscli.arguments - DEBUG - Unpacked value of 'amazon.titan-embed-text-v2:0' for parameter "model_id": 'amazon.titan-embed-text-v2:0'
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.trace: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.guardrail-identifier: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.guardrail-version: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.performance-config-latency: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.service-tier: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.request-metadata: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event load-cli-arg.bedrock-runtime.invoke-model.outfile: calling handler <awscli.paramfile.URIArgumentHandler object at 0x1097d2270>
+2026-09-24 23:09:32,662 - MainThread - botocore.hooks - DEBUG - Event before-create-client: calling handler <function register_session_id_event.<locals>._inject_session_id at 0x109709b10>
+2026-09-24 23:09:32,662 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: env
+2026-09-24 23:09:32,662 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: assume-role
+2026-09-24 23:09:32,663 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: assume-role-with-web-identity
+2026-09-24 23:09:32,663 - MainThread - botocore.credentials - DEBUG - Looking for credentials via: sso
+2026-09-24 23:09:32,663 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/endpoints.json
+2026-09-24 23:09:32,668 - MainThread - botocore.hooks - DEBUG - Event choose-service-name: calling handler <function handle_service_name_alias at 0x108daef00>
+2026-09-24 23:09:32,675 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/bedrock-runtime/2023-09-30/endpoint-rule-set-1.json
+2026-09-24 23:09:32,676 - MainThread - botocore.loaders - DEBUG - Loading JSON file: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/data/partitions.json
+2026-09-24 23:09:32,676 - MainThread - botocore.hooks - DEBUG - Event creating-client-class.bedrock-runtime: calling handler <function remove_bedrock_runtime_invoke_model_with_bidirectional_stream at 0x108dd5e80>
+2026-09-24 23:09:32,676 - MainThread - botocore.hooks - DEBUG - Event creating-client-class.bedrock-runtime: calling handler <function add_generate_presigned_url at 0x108ccc510>
+2026-09-24 23:09:32,676 - MainThread - botocore.configprovider - DEBUG - Looking for endpoint for bedrock-runtime via: environment_service
+2026-09-24 23:09:32,676 - MainThread - botocore.configprovider - DEBUG - Looking for endpoint for bedrock-runtime via: environment_global
+2026-09-24 23:09:32,676 - MainThread - botocore.configprovider - DEBUG - Looking for endpoint for bedrock-runtime via: config_service
+2026-09-24 23:09:32,676 - MainThread - botocore.configprovider - DEBUG - Looking for endpoint for bedrock-runtime via: config_global
+2026-09-24 23:09:32,676 - MainThread - botocore.configprovider - DEBUG - No configured endpoint found.
+2026-09-24 23:09:32,676 - MainThread - botocore.regions - DEBUG - Creating a regex based endpoint for bedrock-runtime, us-east-1
+2026-09-24 23:09:32,677 - MainThread - botocore.endpoint - DEBUG - Setting bedrock-runtime timeout as (60, 60)
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event before-parameter-build.bedrock-runtime.InvokeModel: calling handler <function generate_idempotent_uuid at 0x108daf740>
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event before-parameter-build.bedrock-runtime.InvokeModel: calling handler <function _handle_request_validation_mode_member at 0x108dd6820>
+2026-09-24 23:09:32,677 - MainThread - botocore.regions - DEBUG - Calling endpoint provider with parameters: {'Region': 'us-east-1', 'UseDualStack': False, 'UseFIPS': False}
+2026-09-24 23:09:32,677 - MainThread - botocore.regions - DEBUG - Endpoint provider result: https://bedrock-runtime.us-east-1.amazonaws.com
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event before-call.bedrock-runtime.InvokeModel: calling handler <function inject_api_version_header_if_needed at 0x108dd5590>
+2026-09-24 23:09:32,677 - MainThread - botocore.endpoint - DEBUG - Making request for OperationModel(name=InvokeModel) with params: {'url_path': '/model/amazon.titan-embed-text-v2%3A0/invoke', 'query_string': {}, 'method': 'POST', 'headers': {'Content-Type': 'application/json', 'Accept': 'application/json', 'User-Agent': 'aws-cli/2.36.49 md/awscrt#0.36.4 ua/2.1 os/macos#25.5.0 md/arch#arm64 lang/python#3.14.7 md/pyimpl#CPython m/Z,s,E,r,b,AN cfg/retry-mode#standard md/installer#source sid/981de7257784 md/prompt#off md/command#bedrock-runtime.invoke-model'}, 'body': b'{"inputText":"quota probe"}', 'url': 'https://bedrock-runtime.us-east-1.amazonaws.com/model/amazon.titan-embed-text-v2%3A0/invoke', 'context': {'client_region': 'us-east-1', 'client_config': <botocore.config.Config object at 0x1099b0410>, 'has_streaming_input': True, 'auth_type': None, 'unsigned_payload': None, 'auth_options': ['aws.auth#sigv4', 'smithy.api#httpBearerAuth']}}
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x109883230>>
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function set_operation_specific_signer at 0x108daf480>
+2026-09-24 23:09:32,677 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function _set_auth_scheme_preference_signer at 0x108dd68d0>
+2026-09-24 23:09:32,678 - MainThread - botocore.credentials - DEBUG - Credentials for role retrieved from cache.
+2026-09-24 23:09:32,678 - MainThread - botocore.credentials - DEBUG - Retrieved credentials will expire at: 2026-09-25 11:09:21+00:00
+2026-09-24 23:09:32,678 - MainThread - botocore.auth - DEBUG - Calculating signature using v4 auth.
+2026-09-24 23:09:32,678 - MainThread - botocore.auth - DEBUG - CanonicalRequest:
+POST
+/model/amazon.titan-embed-text-v2%253A0/invoke
+
+accept:application/json
+content-type:application/json
+host:bedrock-runtime.us-east-1.amazonaws.com
+x-amz-date:20260925T030932Z
+x-amz-security-token:<REDACTED>
+
+accept;content-type;host;x-amz-date;x-amz-security-token
+694873c3472bea4f2551aeded696746c909a0a157637b3a69e2b209ad28e7571
+2026-09-24 23:09:32,678 - MainThread - botocore.auth - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20260925T030932Z
+20260925/us-east-1/bedrock/aws4_request
+d50e0755860f32666ffbc086c18d1191f99310ed01015fa97cb66e0b9c2ddf53
+2026-09-24 23:09:32,678 - MainThread - botocore.auth - DEBUG - Signature:
+19c2ea63686f3342802194f946194df5ffc6d45ab49fe7c0bcd32fc74e27c7cb
+2026-09-24 23:09:32,678 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method UserAgentString.rebuild_and_replace_user_agent_handler of <botocore.useragent.UserAgentString object at 0x1099b1310>>
+2026-09-24 23:09:32,678 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <function add_retry_headers at 0x108dd6090>
+2026-09-24 23:09:32,678 - MainThread - botocore.endpoint - DEBUG - Sending http request: <AWSPreparedRequest stream_output=True, method=POST, url=https://bedrock-runtime.us-east-1.amazonaws.com/model/amazon.titan-embed-text-v2%3A0/invoke, headers={'Content-Type': b'application/json', 'Accept': b'application/json', 'User-Agent': b'aws-cli/2.36.49 md/awscrt#0.36.4 ua/2.1 os/macos#25.5.0 md/arch#arm64 lang/python#3.14.7 md/pyimpl#CPython m/Z,s,E,r,b,AN cfg/retry-mode#standard md/installer#source sid/981de7257784 md/prompt#off md/command#bedrock-runtime.invoke-model', 'X-Amz-Date': b'20260925T030932Z', 'X-Amz-Security-Token': b'IQoJb3JpZ2luX2VjEBwaCXVzLWVhc3QtMSJGMEQCIEr4DDllJWkszINfUvmYZ026AYCfSgwIdn+lD9yrDh/bAiAUlsF+CHjStCv9kUJEO4PHCCpprYszCeuNCl2NW7qzOCrjAwjk//////////8BEAAaDDA0ODgzNDIwNzQzNCIMIlbTWI/FErKUwQj/KrcDjB8nz44DsPdj5Pb1Yxt1AU/AkpGpDBjWQbV/RMBwW+N9CaWThM9G8vuwwvuNTfoBCXjIohTekyealcRD2l3HATZ4b63Xa417yjL/gM6vIbJ2C1iiyzP/Pv5Jv2FR4/ObUrgPX1ySy7iZYp4hkxtUuLmzgi2LSeofie65jauu2tfaYdWS/O/uKv2pMByP0bJ0TJAalOriVVvyClgSt63RueX/zUuezhNZJ/2wRMk3SrkbVY5KrE9LTAf39elH2mJGjmx5Hm3Eunm73Vme91ypXXUmq2bP9gKWgKs9P7wB6/UWbDFg84EHjObFqwsAhYBwNIIhbZMX74mCV2UPzuQSQVM01Wlg6JL1W6XkOBAXnPzSjStOr0PzOisp+OzuxCF/JCTdFmXpiLHZZVchaW/kejyWvZm79aSt6bf3Ijs9rdodhdI2C3eS5rD6gz3MoQ9H4REkXLOtI7yEkCtoOAFjysytOFV53/9dZeU1jNIeQTOoXA7CCmWoSiAxVofU2WmUVFVIlzRa5FtJfWoGUmJ5b8lddC6LiOT0ICrsFvn8waWNWI5nNOUiT/nCD2cFzzaHpG2yhVJ+qjDiy9fVBjqpAYUOmlgaNiltloxY1KkUGIVKQltBWtoc7FQN2d5cb6D367f2HBQvhyNwfeWEyRNIHbvWQUtFO3JryWv9cTvc8JKWNIb37u9sQWwxdjmzExIbqVkU5y1HbB8ZD+ILEF+tm1F4tq+U3qSnIWaBesiDOXPbTNUo48DH63qgPk22vkzJrNUKmj06Fd4HvIpx6OXZIuUhnZFLfhEHS5bX3BEAHCULONkSpDn5v9A=', 'Authorization': b'<REDACTED>', 'amz-sdk-invocation-id': b'51f97e0d-ca52-48d2-9c08-2c84e0744492', 'amz-sdk-request': b'attempt=1', 'Content-Length': '27'}>
+2026-09-24 23:09:32,678 - MainThread - botocore.httpsession - DEBUG - Certificate path: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/cacert.pem
+2026-09-24 23:09:32,678 - MainThread - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): bedrock-runtime.us-east-1.amazonaws.com:443
+2026-09-24 23:09:32,973 - MainThread - urllib3.connectionpool - DEBUG - https://bedrock-runtime.us-east-1.amazonaws.com:443 "POST /model/amazon.titan-embed-text-v2%3A0/invoke HTTP/1.1" 429 65
+2026-09-24 23:09:32,974 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:32 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': '82b4f0e5-fc6e-4fd5-ba4d-3045ed1eb58b', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:32,974 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:32,975 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:32 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': '82b4f0e5-fc6e-4fd5-ba4d-3045ed1eb58b', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:32,976 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:32,976 - MainThread - botocore.hooks - DEBUG - Event needs-retry.bedrock-runtime.InvokeModel: calling handler <bound method RetryHandler.needs_retry of <botocore.retries.standard.RetryHandler object at 0x10a0b9be0>>
+2026-09-24 23:09:32,976 - MainThread - botocore.retries.standard - DEBUG - Retry needed, retrying request after delay of: 0.9227019887997018
+2026-09-24 23:09:32,976 - MainThread - botocore.endpoint - DEBUG - Response received to retry, sleeping for 0.9227019887997018 seconds
+2026-09-24 23:09:33,907 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x109883230>>
+2026-09-24 23:09:33,907 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function set_operation_specific_signer at 0x108daf480>
+2026-09-24 23:09:33,907 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function _set_auth_scheme_preference_signer at 0x108dd68d0>
+2026-09-24 23:09:33,907 - MainThread - botocore.auth - DEBUG - Calculating signature using v4 auth.
+2026-09-24 23:09:33,907 - MainThread - botocore.auth - DEBUG - CanonicalRequest:
+POST
+/model/amazon.titan-embed-text-v2%253A0/invoke
+
+accept:application/json
+content-type:application/json
+host:bedrock-runtime.us-east-1.amazonaws.com
+x-amz-date:20260925T030933Z
+x-amz-security-token:<REDACTED>
+
+accept;content-type;host;x-amz-date;x-amz-security-token
+694873c3472bea4f2551aeded696746c909a0a157637b3a69e2b209ad28e7571
+2026-09-24 23:09:33,907 - MainThread - botocore.auth - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20260925T030933Z
+20260925/us-east-1/bedrock/aws4_request
+2378cfc5265ab3b403eb4f2af55d8b97cde79e2b7c9764bbe5e67ae80dbe2548
+2026-09-24 23:09:33,907 - MainThread - botocore.auth - DEBUG - Signature:
+544d901075ec11941bb3c5136613ec20565ccfbe26ec1dd6d4e0c244d7765805
+2026-09-24 23:09:33,907 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method UserAgentString.rebuild_and_replace_user_agent_handler of <botocore.useragent.UserAgentString object at 0x1099b1310>>
+2026-09-24 23:09:33,907 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <function add_retry_headers at 0x108dd6090>
+2026-09-24 23:09:33,907 - MainThread - botocore.endpoint - DEBUG - Sending http request: <AWSPreparedRequest stream_output=True, method=POST, url=https://bedrock-runtime.us-east-1.amazonaws.com/model/amazon.titan-embed-text-v2%3A0/invoke, headers={'Content-Type': b'application/json', 'Accept': b'application/json', 'User-Agent': b'aws-cli/2.36.49 md/awscrt#0.36.4 ua/2.1 os/macos#25.5.0 md/arch#arm64 lang/python#3.14.7 md/pyimpl#CPython m/Z,s,E,r,b,AN cfg/retry-mode#standard md/installer#source sid/981de7257784 md/prompt#off md/command#bedrock-runtime.invoke-model', 'X-Amz-Date': b'20260925T030933Z', 'X-Amz-Security-Token': b'IQoJb3JpZ2luX2VjEBwaCXVzLWVhc3QtMSJGMEQCIEr4DDllJWkszINfUvmYZ026AYCfSgwIdn+lD9yrDh/bAiAUlsF+CHjStCv9kUJEO4PHCCpprYszCeuNCl2NW7qzOCrjAwjk//////////8BEAAaDDA0ODgzNDIwNzQzNCIMIlbTWI/FErKUwQj/KrcDjB8nz44DsPdj5Pb1Yxt1AU/AkpGpDBjWQbV/RMBwW+N9CaWThM9G8vuwwvuNTfoBCXjIohTekyealcRD2l3HATZ4b63Xa417yjL/gM6vIbJ2C1iiyzP/Pv5Jv2FR4/ObUrgPX1ySy7iZYp4hkxtUuLmzgi2LSeofie65jauu2tfaYdWS/O/uKv2pMByP0bJ0TJAalOriVVvyClgSt63RueX/zUuezhNZJ/2wRMk3SrkbVY5KrE9LTAf39elH2mJGjmx5Hm3Eunm73Vme91ypXXUmq2bP9gKWgKs9P7wB6/UWbDFg84EHjObFqwsAhYBwNIIhbZMX74mCV2UPzuQSQVM01Wlg6JL1W6XkOBAXnPzSjStOr0PzOisp+OzuxCF/JCTdFmXpiLHZZVchaW/kejyWvZm79aSt6bf3Ijs9rdodhdI2C3eS5rD6gz3MoQ9H4REkXLOtI7yEkCtoOAFjysytOFV53/9dZeU1jNIeQTOoXA7CCmWoSiAxVofU2WmUVFVIlzRa5FtJfWoGUmJ5b8lddC6LiOT0ICrsFvn8waWNWI5nNOUiT/nCD2cFzzaHpG2yhVJ+qjDiy9fVBjqpAYUOmlgaNiltloxY1KkUGIVKQltBWtoc7FQN2d5cb6D367f2HBQvhyNwfeWEyRNIHbvWQUtFO3JryWv9cTvc8JKWNIb37u9sQWwxdjmzExIbqVkU5y1HbB8ZD+ILEF+tm1F4tq+U3qSnIWaBesiDOXPbTNUo48DH63qgPk22vkzJrNUKmj06Fd4HvIpx6OXZIuUhnZFLfhEHS5bX3BEAHCULONkSpDn5v9A=', 'Authorization': b'<REDACTED>', 'amz-sdk-invocation-id': b'51f97e0d-ca52-48d2-9c08-2c84e0744492', 'amz-sdk-request': b'ttl=20260925T031032Z; attempt=2; max=3', 'Content-Length': '27'}>
+2026-09-24 23:09:33,908 - MainThread - botocore.httpsession - DEBUG - Certificate path: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/cacert.pem
+2026-09-24 23:09:34,026 - MainThread - urllib3.connectionpool - DEBUG - https://bedrock-runtime.us-east-1.amazonaws.com:443 "POST /model/amazon.titan-embed-text-v2%3A0/invoke HTTP/1.1" 429 65
+2026-09-24 23:09:34,027 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:34 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': '06afe3d0-eaef-42e4-b8dc-b90421961a34', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:34,027 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:34,027 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:34 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': '06afe3d0-eaef-42e4-b8dc-b90421961a34', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:34,027 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:34,027 - MainThread - botocore.hooks - DEBUG - Event needs-retry.bedrock-runtime.InvokeModel: calling handler <bound method RetryHandler.needs_retry of <botocore.retries.standard.RetryHandler object at 0x10a0b9be0>>
+2026-09-24 23:09:34,027 - MainThread - botocore.retries.standard - DEBUG - Retry needed, retrying request after delay of: 1.2837871064375472
+2026-09-24 23:09:34,027 - MainThread - botocore.endpoint - DEBUG - Response received to retry, sleeping for 1.2837871064375472 seconds
+2026-09-24 23:09:35,317 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method RequestSigner.handler of <botocore.signers.RequestSigner object at 0x109883230>>
+2026-09-24 23:09:35,317 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function set_operation_specific_signer at 0x108daf480>
+2026-09-24 23:09:35,317 - MainThread - botocore.hooks - DEBUG - Event choose-signer.bedrock-runtime.InvokeModel: calling handler <function _set_auth_scheme_preference_signer at 0x108dd68d0>
+2026-09-24 23:09:35,317 - MainThread - botocore.auth - DEBUG - Calculating signature using v4 auth.
+2026-09-24 23:09:35,317 - MainThread - botocore.auth - DEBUG - CanonicalRequest:
+POST
+/model/amazon.titan-embed-text-v2%253A0/invoke
+
+accept:application/json
+content-type:application/json
+host:bedrock-runtime.us-east-1.amazonaws.com
+x-amz-date:20260925T030935Z
+x-amz-security-token:<REDACTED>
+
+accept;content-type;host;x-amz-date;x-amz-security-token
+694873c3472bea4f2551aeded696746c909a0a157637b3a69e2b209ad28e7571
+2026-09-24 23:09:35,317 - MainThread - botocore.auth - DEBUG - StringToSign:
+AWS4-HMAC-SHA256
+20260925T030935Z
+20260925/us-east-1/bedrock/aws4_request
+2baf13229e8933cbf970c98f740e62f5fe40f0815a6d44650a78529725ba7467
+2026-09-24 23:09:35,317 - MainThread - botocore.auth - DEBUG - Signature:
+9ea4609b41be4d5f4c3e931513524bf66f1a14dfae7113110f32349c927b96c5
+2026-09-24 23:09:35,317 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <bound method UserAgentString.rebuild_and_replace_user_agent_handler of <botocore.useragent.UserAgentString object at 0x1099b1310>>
+2026-09-24 23:09:35,318 - MainThread - botocore.hooks - DEBUG - Event request-created.bedrock-runtime.InvokeModel: calling handler <function add_retry_headers at 0x108dd6090>
+2026-09-24 23:09:35,318 - MainThread - botocore.endpoint - DEBUG - Sending http request: <AWSPreparedRequest stream_output=True, method=POST, url=https://bedrock-runtime.us-east-1.amazonaws.com/model/amazon.titan-embed-text-v2%3A0/invoke, headers={'Content-Type': b'application/json', 'Accept': b'application/json', 'User-Agent': b'aws-cli/2.36.49 md/awscrt#0.36.4 ua/2.1 os/macos#25.5.0 md/arch#arm64 lang/python#3.14.7 md/pyimpl#CPython m/Z,s,E,r,b,AN cfg/retry-mode#standard md/installer#source sid/981de7257784 md/prompt#off md/command#bedrock-runtime.invoke-model', 'X-Amz-Date': b'20260925T030935Z', 'X-Amz-Security-Token': b'IQoJb3JpZ2luX2VjEBwaCXVzLWVhc3QtMSJGMEQCIEr4DDllJWkszINfUvmYZ026AYCfSgwIdn+lD9yrDh/bAiAUlsF+CHjStCv9kUJEO4PHCCpprYszCeuNCl2NW7qzOCrjAwjk//////////8BEAAaDDA0ODgzNDIwNzQzNCIMIlbTWI/FErKUwQj/KrcDjB8nz44DsPdj5Pb1Yxt1AU/AkpGpDBjWQbV/RMBwW+N9CaWThM9G8vuwwvuNTfoBCXjIohTekyealcRD2l3HATZ4b63Xa417yjL/gM6vIbJ2C1iiyzP/Pv5Jv2FR4/ObUrgPX1ySy7iZYp4hkxtUuLmzgi2LSeofie65jauu2tfaYdWS/O/uKv2pMByP0bJ0TJAalOriVVvyClgSt63RueX/zUuezhNZJ/2wRMk3SrkbVY5KrE9LTAf39elH2mJGjmx5Hm3Eunm73Vme91ypXXUmq2bP9gKWgKs9P7wB6/UWbDFg84EHjObFqwsAhYBwNIIhbZMX74mCV2UPzuQSQVM01Wlg6JL1W6XkOBAXnPzSjStOr0PzOisp+OzuxCF/JCTdFmXpiLHZZVchaW/kejyWvZm79aSt6bf3Ijs9rdodhdI2C3eS5rD6gz3MoQ9H4REkXLOtI7yEkCtoOAFjysytOFV53/9dZeU1jNIeQTOoXA7CCmWoSiAxVofU2WmUVFVIlzRa5FtJfWoGUmJ5b8lddC6LiOT0ICrsFvn8waWNWI5nNOUiT/nCD2cFzzaHpG2yhVJ+qjDiy9fVBjqpAYUOmlgaNiltloxY1KkUGIVKQltBWtoc7FQN2d5cb6D367f2HBQvhyNwfeWEyRNIHbvWQUtFO3JryWv9cTvc8JKWNIb37u9sQWwxdjmzExIbqVkU5y1HbB8ZD+ILEF+tm1F4tq+U3qSnIWaBesiDOXPbTNUo48DH63qgPk22vkzJrNUKmj06Fd4HvIpx6OXZIuUhnZFLfhEHS5bX3BEAHCULONkSpDn5v9A=', 'Authorization': b'<REDACTED>', 'amz-sdk-invocation-id': b'51f97e0d-ca52-48d2-9c08-2c84e0744492', 'amz-sdk-request': b'ttl=20260925T031034Z; attempt=3; max=3', 'Content-Length': '27'}>
+2026-09-24 23:09:35,318 - MainThread - botocore.httpsession - DEBUG - Certificate path: /opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/cacert.pem
+2026-09-24 23:09:35,454 - MainThread - urllib3.connectionpool - DEBUG - https://bedrock-runtime.us-east-1.amazonaws.com:443 "POST /model/amazon.titan-embed-text-v2%3A0/invoke HTTP/1.1" 429 65
+2026-09-24 23:09:35,454 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': 'fa80ba76-815d-4517-a66f-201e24067423', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:35,454 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:35,454 - MainThread - botocore.parsers - DEBUG - Response headers: {'Date': 'Fri, 25 Sep 2026 03:09:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '65', 'Connection': 'keep-alive', 'x-amzn-RequestId': 'fa80ba76-815d-4517-a66f-201e24067423', 'x-amzn-ErrorType': 'ThrottlingException:http://internal.amazon.com/coral/com.amazon.bedrock/'}
+2026-09-24 23:09:35,455 - MainThread - botocore.parsers - DEBUG - Response body:
+b'{"message":"Too many requests, please wait before trying again."}'
+2026-09-24 23:09:35,455 - MainThread - botocore.hooks - DEBUG - Event needs-retry.bedrock-runtime.InvokeModel: calling handler <bound method RetryHandler.needs_retry of <botocore.retries.standard.RetryHandler object at 0x10a0b9be0>>
+2026-09-24 23:09:35,455 - MainThread - botocore.retries.standard - DEBUG - Max attempts of 3 reached.
+2026-09-24 23:09:35,455 - MainThread - botocore.retries.standard - DEBUG - Not retrying request.
+2026-09-24 23:09:35,455 - MainThread - botocore.hooks - DEBUG - Event after-call.bedrock-runtime.InvokeModel: calling handler <bound method StreamingOutputArgument.save_file of <awscli.customizations.streamingoutputarg.StreamingOutputArgument object at 0x109881940>>
+2026-09-24 23:09:35,455 - MainThread - botocore.hooks - DEBUG - Event after-call.bedrock-runtime.InvokeModel: calling handler <bound method RetryQuotaChecker.release_retry_quota of <botocore.retries.standard.RetryQuotaChecker object at 0x10a0b8c20>>
+2026-09-24 23:09:35,456 - MainThread - awscli.clidriver - DEBUG - Exception caught in main()
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/clidriver.py", line 604, in main
+    return command_table[parsed_args.command](remaining, parsed_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/clidriver.py", line 742, in __call__
+    return command_table[parsed_args.operation](remaining, parsed_globals)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/clidriver.py", line 959, in __call__
+    return self._operation_caller.invoke(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self._operation_model.service_model.service_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        parsed_globals,
+        ^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/clidriver.py", line 1095, in invoke
+    response = self._make_client_call(
+        client, operation_name, parameters, parsed_globals
+    )
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/clidriver.py", line 1109, in _make_client_call
+    response = getattr(client, py_operation_name)(**parameters)
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/client.py", line 442, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/context.py", line 124, in wrapper
+    return func(*args, **kwargs)
+  File "/opt/homebrew/Cellar/awscli/2.36.49/libexec/lib/python3.14/site-packages/awscli/botocore/client.py", line 932, in _make_api_call
+    raise error
+botocore.errorfactory.ThrottlingException: An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 2): Too many requests, please wait before trying again.
+
+aws: [ERROR]: An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 2): Too many requests, please wait before trying again.

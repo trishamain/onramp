@@ -1,0 +1,36 @@
+BEDROCK QUOTA EVIDENCE - account 048834207434, us-east-1
+captured 2026-09-25T03:12:50Z
+
+1. ON-DEMAND QUOTAS ARE ZERO AND NON-ADJUSTABLE
+   requests/min quotas : 84 total, 82 are 0.0, 2 non-zero
+   tokens/min quotas   : 63 total, 61 are 0.0
+   adjustable          : 2 of 84
+   the only non-zero on-demand allocations in the entire account:
+          1.0  On-demand model inference requests per minute for AI21 Labs Jamba 1.5 Large
+          1.0  On-demand model inference requests per minute for AI21 Labs Jamba 1.5 Mini
+
+   the two this project needs:
+          0.0  adjustable=False  L-26C560CE  On-demand model inference requests per minute for Amazon Titan Text Embeddings V2
+          0.0  adjustable=False  L-DE641971  On-demand model inference tokens per minute for Amazon Titan Text Embeddings V2
+
+2. BATCH QUOTAS ARE POPULATED - the account is otherwise provisioned
+   60 batch job-size quotas at 5.0 GB, e.g.:
+          5.0  Batch inference job size (in GB) for Gemma 3 12B
+          5.0  Batch inference job size (in GB) for Claude Sonnet 4.5
+          5.0  Batch inference job size (in GB) for OpenAI GPT OSS 120b
+   So this is specifically an on-demand inference allocation gap,
+   not a dormant or unprovisioned account.
+
+3. NO INCREASE HAS EVER BEEN REQUESTED ON THIS ACCOUNT
+   prior requests: 0
+
+4. THE MODEL IS FULLY ENTITLED - authorized but unusable
+   authorizationStatus entitlement region agreement:  AUTHORIZED  AVAILABLE  AVAILABLE  AVAILABLE
+
+5. SERVICE QUOTAS REFUSES THE SELF-SERVICE PATH
+   aws: [ERROR]: An error occurred (IllegalArgumentException) when calling the RequestServiceQuotaIncrease operation: The request failed because the specified quota is not adjustable.
+
+6. LIVE INVOCATION FAILS
+   RequestId fa80ba76-815d-4517-a66f-201e24067423
+   ThrottlingException: Too many requests (reached max retries: 2)
+   full redacted wire trace: bedrock-throttle-trace.redacted.txt
